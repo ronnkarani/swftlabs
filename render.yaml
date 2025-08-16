@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: swftlabs
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn swft_labs.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: swft_labs.settings
+      - key: PYTHON_VERSION
+        value: "3.11"

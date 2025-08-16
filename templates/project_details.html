@@ -1,0 +1,73 @@
+<!-- project_details.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ project.title }} | SWFT LABS{% endblock %}
+
+{% block content %}
+<main class="section project-details">
+  <div class="container">
+    <h2 class="project-title">💻 {{ project.title }}</h2>
+    <div class="project-meta">
+      <span><i class="uil uil-calendar-alt"></i> {{ project.created_at }}</span>
+      <span><i class="uil uil-eye"></i> {{ project.views }} views</span>
+      <span>
+        <form method="POST" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" name="like" style="all:unset; cursor:pointer;">
+            <i class="uil uil-heart"></i>
+          </button>
+          {{ project.likes }} likes
+        </form>
+      </span>
+      <span><i class="uil uil-comment-alt-lines"></i> {{ comments.count }} comments</span>
+    </div>
+
+    {% if project.image %}
+      <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-detail-image"/>
+    {% endif %}
+
+    <div class="project-description">
+      <h3>About This Project</h3>
+      {{ project.description|safe }}
+
+      <h4>Technologies Used:</h4>
+      <ul>
+        {% for tech in project.tech_list %}
+          <li>{{ tech }}</li>
+        {% empty %}
+          <li>Technologies not listed</li>
+        {% endfor %}
+      </ul>
+
+      <div class="project-links">
+        {% if project.repo_url %}
+          <a href="{{ project.repo_url }}" target="_blank" class="button button--outline">View Code</a>
+        {% endif %}
+        {% if project.live_url %}
+          <a href="{{ project.live_url }}" target="_blank" class="button button--outline">Live Site</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="project-comments">
+      <h3><i class="uil uil-comment-alt-lines"></i> {{ comments.count }} Comments</h3>
+      <div class="comment-list">
+        {% for comment in comments %}
+          <div class="comment"><p><strong>{{ comment.name }}:</strong> {{ comment.content }}</p></div>
+        {% empty %}
+          <p>No comments yet.</p>
+        {% endfor %}
+      </div>
+
+      <h3><i class="uil uil-comment-alt-lines"></i>Leave a Comment</h3>
+      <form class="comment-form" method="POST">
+        {% csrf_token %}
+        <textarea type="text" name="name" placeholder="Your name" required></textarea>
+        <textarea name="content" placeholder="Leave a comment..." required></textarea>
+        <button type="submit" name="comment">      <i class="uil uil-message"></i>Post Comment</button>
+      </form>
+    </div>
+  </div>
+</main>
+{% endblock %}

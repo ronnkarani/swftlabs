@@ -1,0 +1,59 @@
+<!-- blog_details.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ post.title }} | SWFT LABS Blog{% endblock %}
+
+{% block content %}
+<main class="section blog-details">
+  <div class="container">
+    <h1 class="blog-title">📝 {{ post.title }}</h1>
+    <div class="blog-meta">
+      <span><i class="uil uil-calendar-alt"></i> {{ post.created_at }}</span>
+      <span><i class="uil uil-user"></i> {{ post.author }}</span>
+      <span><i class="uil uil-eye"></i> {{ post.views }} views</span>
+      <span>
+        <form method="POST" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" name="like" style="all:unset; cursor:pointer;">
+            <i class="uil uil-heart"></i>
+          </button>
+          {{ post.likes }} likes
+        </form>
+      </span>
+      <span>
+        <i class="uil uil-comment-alt-lines"></i> {{ comments.count }} comments
+      </span>
+    </div>
+
+    {% if post.image %}
+      <img src="{{ post.image.url }}" alt="{{ post.title }}" class="blog-detail-image" />
+    {% endif %}
+
+    <article class="blog-content">
+      {{ post.content|safe }}
+    </article>
+
+    <div class="blog-comments">
+      <h3><i class="uil uil-comment-alt-lines"></i> {{ comments.count }} Comments</h3>
+      <div class="comment-list">
+        {% for comment in comments %}
+          <div class="comment">
+            <p><strong>{{ comment.name }}:</strong> {{ comment.content }}</p>
+          </div>
+        {% empty %}
+          <p>No comments yet.</p>
+        {% endfor %}
+      </div>
+
+      <h3><i class="uil uil-comment-alt-lines"></i> Leave Comment</h3>
+      <form class="comment-form" method="POST">
+        {% csrf_token %}
+        <textarea type="text" name="name" placeholder="Your name" required></textarea>
+        <textarea name="content" placeholder="Leave a comment..." required></textarea>
+        <button type="submit" name="comment">Post Comment</button>
+      </form>
+    </div>
+  </div>
+</main>
+{% endblock %}

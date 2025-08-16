@@ -1,0 +1,41 @@
+<!-- 🌟 Navbar -->
+<header class="navbar">
+  <div class="container nav__wrapper">
+    <a href="{% url 'home' %}" class="logo-link">
+      <div class="logo">💻 Swft Labs</div>
+    </a>
+
+    <!-- Hamburger menu -->
+    <input type="checkbox" id="menu-toggle" />
+    <label for="menu-toggle" class="menu-icon"><i class="uil uil-bars"></i></label>
+
+    <ul class="nav__links">
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url 'projects' %}">Projects</a></li>
+      <li><a href="{% url 'blog' %}">Blog</a></li>
+      <li><a href="{% url 'contact' %}">Contact</a></li>
+    </ul>
+
+    <!-- User dropdown -->
+    <div class="nav__icons">
+      <div class="user-dropdown">
+        <i class="uil uil-user login-icon" title="Account"></i>
+        <i class="uil uil-angle-down dropdown-arrow"></i>
+        <div class="dropdown-content">
+          {% if request.user.is_authenticated %}
+            <a href="{% url 'admin:index' %}">Admin</a>
+            <form method="post" action="{% url 'custom_logout' %}">
+              {% csrf_token %}
+              <button type="submit">Logout</button>
+            </form>
+
+          {% else %}
+            <a href="{% url 'signup' %}">Sign Up</a>
+            <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+

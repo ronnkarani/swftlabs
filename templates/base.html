@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>💻 SWFT LABS</title>
+  <!-- Unicons -->
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+
+
+    <script src="{% static 'js/script.js' %}" defer></script>
+  </head>
+
+
+    <!-- 🌟 Navbar -->
+  {% include 'includes/navbar.html' %}
+
+  <!-- ⭐️ Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Main Content Block -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- 🚀 Scroll to Top -->
+  <button id="scrollTopBtn" title="Go to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+    {% include 'includes/footer.html' %}
+
+</body>
+</html>

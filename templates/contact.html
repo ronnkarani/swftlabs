@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}💻 Home{% endblock %}
+{% block content %}
+
+
+  <!-- Contact Section -->
+    <div class="container">
+      <h2 class="section-title">Get In Touch</h2>
+      <div class="contact-wrapper">
+        <!-- Contact Form -->
+        <form class="contact-form">
+          <input type="text" placeholder="Your Name" required />
+          <input type="email" placeholder="Your Email" required />
+          <textarea placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+          <h3>Contact Info</h3>
+          <p><i class="uil uil-envelope"></i> karanironny25@gmail.com</p>
+          <p><i class="uil uil-location-point"></i> Kenya, East Africa</p>
+          <div class="contact-socials">
+            <a href="https://github.com/ronnkarani" target="_blank"><i class="uil uil-github"></i></a>
+            <a href="https://linkedin.com/in/ronnkarani" target="_blank"><i class="uil uil-linkedin"></i></a>
+            <a href="mailto:karanironny25@gmail.com"><i class="uil uil-envelope"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+{% endblock %}
