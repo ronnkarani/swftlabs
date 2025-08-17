@@ -169,8 +169,6 @@ h1 {
   }
 }
 
-
-
 /* Responsive Nav */
 @media (max-width: 768px) {
   .nav__links {
@@ -190,6 +188,104 @@ h1 {
 
   .menu-icon {
     display: block;
+  }
+}
+.auth-container {
+  max-width: 400px;
+  width: 90%; /* ✅ allows shrinking on small screens */
+  margin: 5vh auto;
+  background: #1e1e1e;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  color: #fff;
+}
+
+.auth-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #58a6ff;
+  font-size: 1.8rem;
+}
+
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-container input {
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  background: #0d0d0d;
+  color: #fff;
+  font-size: 1rem;
+  width: 100%; /* ✅ makes inputs full width */
+  box-sizing: border-box;
+}
+
+.auth-container button {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: #58a6ff;
+  color: #0d0d0d;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 100%;
+}
+
+.auth-container button:hover {
+  background: #1f6feb;
+}
+
+.auth-container a {
+  color: #58a6ff;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.auth-container a:hover {
+  text-decoration: underline;
+}
+
+/* ✅ Responsive Tweaks */
+@media (max-width: 600px) {
+  .auth-container {
+    padding: 1.5rem;
+    margin: 8vh auto;
+  }
+
+  .auth-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .auth-container input,
+  .auth-container button {
+    padding: 14px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .auth-container {
+    padding: 1rem;
+    margin: 5vh auto;
+  }
+
+  .auth-container h2 {
+    font-size: 1.3rem;
+  }
+
+  .auth-container input,
+  .auth-container button {
+    font-size: 0.95rem;
+    padding: 12px;
   }
 }
 

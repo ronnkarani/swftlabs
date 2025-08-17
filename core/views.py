@@ -1,12 +1,18 @@
 # views.py
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Project, BlogPost, Comment
+from .models import Project, BlogPost, Comment, SocialLink
 from django.core.paginator import Paginator
+from django.contrib.auth.forms import UserCreationForm
+from django.core.mail import send_mail
+from django.contrib import messages
+from django.conf import settings
 
 def home(request):
+    social_links = SocialLink.objects.all()
     projects = Project.objects.all().order_by('-created_at')[:4]
     blogs = BlogPost.objects.all().order_by('-created_at')[:4]
     return render(request, 'home.html', {
+        "social_links": social_links,
         'projects': projects,
         'blog_posts': blogs
     })
@@ -86,4 +92,26 @@ def signup_view(request):
 
 
 def contact(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        message = request.POST.get("message")
+
+        subject = f"New Contact Form Submission from {name}"
+        body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+
+        try:
+            send_mail(
+                subject,
+                body,
+                settings.EMAIL_HOST_USER,  # sender
+                [settings.EMAIL_HOST_USER],  # receiver (your email)
+                fail_silently=False,
+            )
+            messages.success(request, "✅ Your message has been sent successfully!")
+        except Exception as e:
+            messages.error(request, f"❌ Error sending message: {e}")
+
+        return redirect("contact")
+
     return render(request, "contact.html")

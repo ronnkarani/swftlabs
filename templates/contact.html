@@ -9,12 +9,19 @@
     <div class="container">
       <h2 class="section-title">Get In Touch</h2>
       <div class="contact-wrapper">
+
+        {% if messages %}
+      {% for message in messages %}
+        <p class="alert">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
         <!-- Contact Form -->
-        <form class="contact-form">
-          <input type="text" placeholder="Your Name" required />
-          <input type="email" placeholder="Your Email" required />
-          <textarea placeholder="Your Message" required></textarea>
-          <button type="submit">Send Message</button>
+        <form method="post" action="{% url 'contact' %}" class="contact-form" >
+                {% csrf_token %}
+          <input type="text" name="name" placeholder="Your Name" required />
+          <input type="email" name="email" placeholder="Your Email" required />
+          <textarea name="message" placeholder="Your Message" required></textarea>
+          <button type="submit" class="button">Send Message</button>
         </form>
 
         <!-- Contact Info -->

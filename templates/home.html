@@ -19,10 +19,13 @@
               <a href="#contact" class="button button--outline">Contact Us</a>
             </div>
             <div class="home__socials">
-          {% for platform, url in social_links.items %}
-            <a href="{{ url }}" target="_blank"><i class="uil uil-{{ platform }}"></i></a>
-          {% endfor %}
-        </div>
+              {% for link in social_links %}
+                <a href="{{ link.url }}" target="_blank">
+                  <i class="uil uil-{{ link.platform }}"></i>
+                </a>
+              {% endfor %}
+            </div>
+            
           </div>
           <div class="home__image">
             <img src="{% static 'images/logo.png' %}" alt="swft labs" />
@@ -114,7 +117,7 @@
 
 
     <!-- 📂 Projects Section -->
-    <section class="projects section" id="projects">
+  <section class="projects section" id="projects">
   <div class="container">
     <h2 class="section-title">Our Projects 🚀</h2>
     <div class="project-grid">
