@@ -5,6 +5,49 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils.text import Truncator
 
 
+# Hero Section
+class Hero(models.Model):
+    greeting =models.CharField(max_length=255, default="Hi 👋, welcome to")
+    name = models.CharField(max_length=100)
+    subtitle = RichTextUploadingField(max_length=500, blank=True)
+    image = models.ImageField(upload_to='hero/', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+# About Section
+class About(models.Model):
+    title = models.CharField(max_length=255)
+    content = RichTextUploadingField()
+
+    def __str__(self):
+        return self.title
+    
+
+class OurStory(models.Model):
+    title = models.CharField(max_length=255, default="Our Story")
+    content = RichTextUploadingField()
+
+    def __str__(self):
+        return self.title
+
+
+class WhyChooseUs(models.Model):
+    title = models.CharField(max_length=255, default="Why Choose Us")
+    points = RichTextUploadingField(help_text="Use bullet points or HTML list here")
+
+    def __str__(self):
+        return self.title
+
+class Service(models.Model):
+    title = models.CharField(max_length=200)
+    subtitle = models.CharField(max_length=255, blank=True, null=True)
+    description = RichTextUploadingField()
+    icon = models.CharField(max_length=50, help_text="Add emoji or icon code e.g., ⭐️, 💼, 🎖️")
+
+    def __str__(self):
+        return self.title
+
 class SocialLink(models.Model):
     PLATFORM_CHOICES = [
         ("facebook", "Facebook"),
@@ -80,3 +123,14 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.name}"
+    
+# Testimonial Section
+class Testimonial(models.Model):
+    name = RichTextUploadingField(max_length=300)
+    role = RichTextUploadingField(max_length=300, blank=True)
+    content = RichTextUploadingField()
+    image = models.ImageField(upload_to='testimonials/', blank=True, null=True)
+    featured = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name

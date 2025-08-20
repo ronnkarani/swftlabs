@@ -1,6 +1,6 @@
 # views.py
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Project, BlogPost, Comment, SocialLink
+from .models import Project, BlogPost, Comment, SocialLink, Hero, About, Testimonial, Service, OurStory, WhyChooseUs
 from django.core.paginator import Paginator
 from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import send_mail
@@ -8,10 +8,22 @@ from django.contrib import messages
 from django.conf import settings
 
 def home(request):
+    hero = Hero.objects.first()  
+    about = About.objects.all()  
+    our_story = OurStory.objects.first()
+    why_choose = WhyChooseUs.objects.first()
+    testimonials = Testimonial.objects.all()
     social_links = SocialLink.objects.all()
+    services = Service.objects.all()
     projects = Project.objects.all().order_by('-created_at')[:4]
     blogs = BlogPost.objects.all().order_by('-created_at')[:4]
     return render(request, 'home.html', {
+        'hero': hero,
+        'about_sections': about,
+        'our_story': our_story,
+        'why_choose': why_choose,
+        "services": services,
+        'testimonials': testimonials,
         "social_links": social_links,
         'projects': projects,
         'blog_posts': blogs
@@ -92,6 +104,7 @@ def signup_view(request):
 
 
 def contact(request):
+    social_links = SocialLink.objects.all()
     if request.method == "POST":
         name = request.POST.get("name")
         email = request.POST.get("email")
@@ -114,4 +127,4 @@ def contact(request):
 
         return redirect("contact")
 
-    return render(request, "contact.html")
+    return render(request, "contact.html",{"social_links": social_links,})

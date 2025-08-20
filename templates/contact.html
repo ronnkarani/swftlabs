@@ -30,9 +30,11 @@
           <p><i class="uil uil-envelope"></i> karanironny25@gmail.com</p>
           <p><i class="uil uil-location-point"></i> Kenya, East Africa</p>
           <div class="contact-socials">
-            <a href="https://github.com/ronnkarani" target="_blank"><i class="uil uil-github"></i></a>
-            <a href="https://linkedin.com/in/ronnkarani" target="_blank"><i class="uil uil-linkedin"></i></a>
-            <a href="mailto:karanironny25@gmail.com"><i class="uil uil-envelope"></i></a>
+              {% for link in social_links %}
+                <a href="{{ link.url }}" target="_blank">
+                  <i class="uil uil-{{ link.platform }}"></i>
+                </a>
+              {% endfor %}
           </div>
         </div>
       </div>
