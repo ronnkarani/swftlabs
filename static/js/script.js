@@ -134,3 +134,23 @@ carousel.addEventListener('touchmove', (e) => {
   const walk = (x - startX) * 2;
   carousel.scrollLeft = scrollLeft - walk;
 });
+
+// Get the button
+  let scrollBtn = document.getElementById("scrollToTopBtn");
+
+  // Show button after scrolling 200px
+  window.onscroll = function () {
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      scrollBtn.style.display = "block";
+    } else {
+      scrollBtn.style.display = "none";
+    }
+  };
+
+  // Scroll smoothly to top when clicked
+  scrollBtn.onclick = function () {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };

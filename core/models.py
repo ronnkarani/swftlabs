@@ -92,7 +92,7 @@ class Project(models.Model):
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
-    excerpt = models.TextField()
+    excerpt = models.TextField(blank=True)
     image = models.ImageField(upload_to='blogs/')
     content = RichTextUploadingField()    
     author = models.CharField(max_length=100, default="Ronny")
@@ -101,8 +101,14 @@ class BlogPost(models.Model):
     likes = models.PositiveIntegerField(default=0)
 
     def save(self, *args, **kwargs):
+        # Auto-generate slug if not provided
         if not self.slug:
             self.slug = slugify(self.title)
+        
+        # Auto-generate excerpt from content (first 30 words by default)
+        if not self.excerpt and self.content:
+            self.excerpt = Truncator(self.content).words(30, truncate="...")
+
         super().save(*args, **kwargs)
         
     def __str__(self):

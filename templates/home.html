@@ -88,8 +88,6 @@
       </div>
     </section>
 
-
-
     <!-- 🌐 Services Section -->
     <section class="timeline section" id="experience">
       <div class="container">
@@ -101,7 +99,7 @@
             <div class="timeline-content">
               <h3>{{ service.icon }} {{ service.title }} </h3>
               <span>{{ service.subtitle }}</span>
-              <p>{{ service.description }}</p>
+              <p>{{ service.description|safe }}</p>
             </div>
           </div>
           {% endfor %}

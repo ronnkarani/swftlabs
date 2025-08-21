@@ -1140,26 +1140,27 @@ h1 {
   }
 }
 
-/* ===== Scroll to Top Button ===== */
-#scrollTopBtn {
-  display: none;
+/* Scroll To Top Button */
+#scrollToTopBtn {
+  display: none; /* Hidden by default */
   position: fixed;
   bottom: 30px;
-  right: 25px;
-  z-index: 1000;
+  right: 30px;
+  z-index: 99;
   font-size: 18px;
-  background-color: maroon;
-  color: white;
-  padding: 12px 16px;
   border: none;
-  border-radius: 50%;
+  outline: none;
+  background: #007bff; /* Change to your brand color */
+  color: white;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: background 0.3s;
+  padding: 12px 16px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
 }
 
-#scrollTopBtn:hover {
-  background-color: #800000;
+#scrollToTopBtn:hover {
+  background: #0056b3; /* Darker shade on hover */
+  transform: scale(1.1);
 }
 
 
