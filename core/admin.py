@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, BlogPost, SocialLink, Hero, About, Testimonial, Service, OurStory, WhyChooseUs
+from .models import Project, BlogPost, SocialLink, Hero, About, Testimonial, Service, OurStory, WhyChooseUs, Category
 
 @admin.register(Hero)
 class HeroAdmin(admin.ModelAdmin):
@@ -34,6 +34,16 @@ class SocialLinkAdmin(admin.ModelAdmin):
     list_display = ("platform", "url")
 
 
+@admin.register(BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
+    list_display = ("title", "category", "created_at")
+    list_filter = ("category",)
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}  # auto-fill slug from name
+    list_display = ("name", "slug")
 
 admin.site.register(Project)
-admin.site.register(BlogPost)

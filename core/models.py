@@ -63,9 +63,26 @@ class SocialLink(models.Model):
 
     def __str__(self):
         return f"{self.get_platform_display()} - {self.url}"
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            from django.utils.text import slugify
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
 class Project(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # ✅ added
     description = RichTextUploadingField()
     image = models.ImageField(upload_to='projects/')
     technologies = models.TextField()
@@ -94,6 +111,7 @@ class BlogPost(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     excerpt = models.TextField(blank=True)
     image = models.ImageField(upload_to='blogs/')
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     content = RichTextUploadingField()    
     author = models.CharField(max_length=100, default="Ronny")
     created_at = models.DateField(auto_now_add=True)

@@ -6,34 +6,52 @@
 {% block content %}
 <div class="container">
   <h2 class="section-title">All Projects 🚀</h2>
+
+  <!-- 🔍 Search + Filter -->
+  <form method="get" action="{% url 'projects' %}" class="blog-filters">
+    <input type="text" name="q" placeholder="🔍 Search projects..." value="{{ query }}">
+    <select name="category" onchange="this.form.submit()">
+      <option value="all">All Categories</option>
+      {% for cat in categories %}
+        <option value="{{ cat.slug }}" {% if selected_category == cat.slug %}selected{% endif %}>
+          {{ cat.name }}
+        </option>
+      {% endfor %}
+    </select>
+    <button type="submit">Search</button>
+  </form>
+
+  <!-- 📂 Projects -->
   <div class="project-grid">
     {% for project in projects %}
       <div class="project-card">
         {% if project.image %}
-          <img src="{{ project.image.url }}" alt="{{ project.title }}" class="blog-image" />
+          <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-image" />
         {% endif %}
-        <h3><a href="{% url 'project_details' project.slug %}" style="text-decoration: none;">
-    {{ project.title }}
-  </a></h3>
+        <h3>
+          <a href="{% url 'project_details' project.slug %}" style="text-decoration: none;">
+            {{ project.title }}
+          </a>
+        </h3>
         <p>{{ project.description|truncatewords:25|safe }}</p>
         <div class="project-links">
           {% if project.live_url %}
             <a href="{{ project.live_url }}" target="_blank">View Project</a>
           {% endif %}
-          <a href="{% url 'project_details' project.slug %}" class="more-info">More Info</a>
+          <a href="{% url 'project_details' slug=project.slug %}" class="more-info">More Info</a>
         </div>
       </div>
     {% empty %}
       <p>No projects found.</p>
     {% endfor %}
   </div>
-
-  
 </div>
+
+<!-- 🔢 Pagination -->
 <div class="pagination">
   {% if projects.has_previous %}
-    <a href="?page=1" class="button button--outline">&laquo; First</a>
-    <a href="?page={{ projects.previous_page_number }}" class="button button--outline">Previous</a>
+    <a href="?page=1{% if selected_category and selected_category != 'all' %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" class="button button--outline">&laquo; First</a>
+    <a href="?page={{ projects.previous_page_number }}{% if selected_category and selected_category != 'all' %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" class="button button--outline">Previous</a>
   {% endif %}
 
   <span class="button disabled">
@@ -41,10 +59,8 @@
   </span>
 
   {% if projects.has_next %}
-    <a href="?page={{ projects.next_page_number }}" class="button button--outline">Next</a>
-    <a href="?page={{ projects.paginator.num_pages }}" class="button button--outline">Last &raquo;</a>
+    <a href="?page={{ projects.next_page_number }}{% if selected_category and selected_category != 'all' %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" class="button button--outline">Next</a>
+    <a href="?page={{ projects.paginator.num_pages }}{% if selected_category and selected_category != 'all' %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" class="button button--outline">Last &raquo;</a>
   {% endif %}
 </div>
-
-
 {% endblock %}

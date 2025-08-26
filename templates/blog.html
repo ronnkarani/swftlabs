@@ -7,37 +7,53 @@
 <main class="section blog-page">
   <div class="container">
     <h2 class="section-title">Our Blog 📝</h2>
+
+    <!-- Search + Filters -->
+    <form method="GET" action="{% url 'blog' %}" class="blog-filters">
+      <input type="text" name="q" placeholder="🔍 Search blogs..." value="{{ request.GET.q }}">
+      <select name="category" onchange="this.form.submit()">
+        <option value="all">All Categories</option>
+        {% for cat in categories %}
+        <option value="{{ cat.slug }}" {% if selected_category == cat.slug %}selected{% endif %}>
+          {{ cat.name }}
+        </option>
+        {% endfor %}
+      </select>
+      <button type="submit">Search</button>
+    </form>
+
     <div class="blog-grid">
       {% for post in blog_posts %}
         <div class="blog-card">
           {% if post.image %}
-            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="blog-image" />
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="blog-image">
           {% endif %}
-                  <h3><a href="{%  url 'blog_detail' slug=post.slug %}" style="text-decoration: none; ">
-    {{ post.title }}
-  </a></h3>
-          <p>{{ post.excerpt }}</p>
+          <h3><a href="{% url 'blog_detail' slug=post.slug %}">{{ post.title }}</a></h3>
+          <p>{{ post.excerpt|safe }}</p>
           <div class="blog-meta">
             <span><i class="uil uil-calendar-alt"></i> {{ post.created_at|date:"F d, Y" }}</span>
             <span><i class="uil uil-user"></i> {{ post.author }}</span>
             <span><i class="uil uil-eye"></i> {{ post.views }} views</span>
             <span><i class="uil uil-heart"></i> {{ post.likes }} likes</span>
-      <span>
-        <i class="uil uil-comment-alt-lines"></i> {{ comments.count }} comments
-      </span>
+            <span><i class="uil uil-comment-alt-lines"></i> {{ post.comments.count }} comments</span>
           </div>
-          <a href="{% url 'blog_detail' post.slug %}" class="read-more">Read More</a>
+          <a href="{% url 'blog_detail' slug=post.slug %}" class="read-more">Read More</a>
         </div>
       {% empty %}
         <p>No blog posts available yet.</p>
       {% endfor %}
     </div>
   </div>
+
   
+
   <div class="pagination">
   {% if blog_posts.has_previous %}
-    <a href="?page=1" class="button button--outline">&laquo; First</a>
-    <a href="?page={{ blog_posts.previous_page_number }}" class="button button--outline">Previous</a>
+    <a href="?page=1{% if selected_category and selected_category != 'all' %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" 
+       class="button button--outline">&laquo; First</a>
+       
+    <a href="?page={{ blog_posts.previous_page_number }}{% if selected_category and selected_category != 'all' %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" 
+       class="button button--outline">Previous</a>
   {% endif %}
 
   <span class="button disabled">
@@ -45,8 +61,11 @@
   </span>
 
   {% if blog_posts.has_next %}
-    <a href="?page={{ blog_posts.next_page_number }}" class="button button--outline">Next</a>
-    <a href="?page={{ blog_posts.paginator.num_pages }}" class="button button--outline">Last &raquo;</a>
+    <a href="?page={{ blog_posts.next_page_number }}{% if selected_category and selected_category != 'all' %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" 
+       class="button button--outline">Next</a>
+       
+    <a href="?page={{ blog_posts.paginator.num_pages }}{% if selected_category and selected_category != 'all' %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" 
+       class="button button--outline">Last &raquo;</a>
   {% endif %}
 </div>
 

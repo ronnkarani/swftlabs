@@ -479,7 +479,14 @@ h1 {
   color: #58a6ff;
 }
 
+
+.projects-page .container {
+  max-width: 1200px; /* wider than 960px */
+}
+
 .project-grid {
+  display: flex;
+  flex-direction: column;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
@@ -507,6 +514,7 @@ h1 {
   font-size: 0.95rem;
   color: #ccc;
   margin-bottom: 1rem;
+  flex-grow: 1; /* pushes links down for alignment */
 }
 
 .project-card a {
@@ -1046,6 +1054,17 @@ h1 {
   padding: 1rem 0;
 }
 
+/* Stars below image */
+.testimonial-stars {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.testimonial-stars i {
+  color: #f5c518; /* golden stars */
+  font-size: 1rem;
+  margin: 0 2px;
+}
 .testimonial-card {
   flex: 0 0 32%; /* show ~3 cards per row on desktop */
   background: #1a1a1a;
@@ -1139,6 +1158,151 @@ h1 {
     margin-top: 1rem;
   }
 }
+/* Blog Filters (Search + Category) */
+.blog-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.blog-filters input[type="text"],
+.blog-filters select {
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #1e1e1e;
+  color: #fff;
+  font-size: 1rem;
+  min-width: 200px;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-filters input[type="text"]::placeholder {
+  color: #aaa;
+}
+
+.blog-filters input[type="text"]:focus,
+.blog-filters select:focus {
+  outline: none;
+  border: 1px solid #58a6ff;
+  box-shadow: 0 0 8px rgba(88, 166, 255, 0.5);
+}
+
+.blog-filters select option {
+  background: #1e1e1e;
+  color: #fff;
+}
+
+.blog-filters button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  background: #58a6ff;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.blog-filters button:hover {
+  background: #3c85d4;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .blog-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .blog-filters input,
+  .blog-filters select,
+  .blog-filters button {
+    width: 100%;
+  }
+}
+/* 🎨 Project Filters (Dark Theme) */
+.project-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+
+.project-filters input[type="text"],
+.project-filters select {
+  background: #1e1e1e; /* Dark background */
+  color: #f1f1f1;      /* Light text */
+  padding: 10px 14px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  min-width: 200px;
+  background: #222;   /* Dark background */
+  color: #eee; 
+  transition: border 0.3s ease, background 0.3s ease;
+}
+
+.project-filters input[type="text"]::placeholder {
+  color: #aaa; /* Subtle placeholder */
+}
+
+.project-filters input[type="text"]:focus,
+.project-filters select:focus {
+  border-color: #0077ff; /* Accent color */
+  background: #2a2a2a;
+}
+
+.project-filters button {
+  background: #0077ff;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.project-filters button:hover {
+  background: #005fcc;
+  transform: translateY(-2px);
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .project-filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .project-filters input[type="text"],
+  .project-filters select,
+  .project-filters button {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .project-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .project-filters input[type="text"],
+  .project-filters select,
+  .project-filters button {
+    width: 100%;
+  }
+}
+
 
 /* Scroll To Top Button */
 #scrollToTopBtn {

@@ -1,6 +1,6 @@
 # views.py
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Project, BlogPost, Comment, SocialLink, Hero, About, Testimonial, Service, OurStory, WhyChooseUs
+from .models import Project, BlogPost, Comment, SocialLink, Hero, About, Testimonial, Service, OurStory, WhyChooseUs, Category
 from django.core.paginator import Paginator
 from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import send_mail
@@ -17,6 +17,8 @@ def home(request):
     services = Service.objects.all()
     projects = Project.objects.all().order_by('-created_at')[:4]
     blogs = BlogPost.objects.all().order_by('-created_at')[:4]
+    categories = Category.objects.all()
+    
     return render(request, 'home.html', {
         'hero': hero,
         'about_sections': about,
@@ -26,15 +28,37 @@ def home(request):
         'testimonials': testimonials,
         "social_links": social_links,
         'projects': projects,
-        'blog_posts': blogs
+        'blog_posts': blogs,
+        'categories': categories,
+        
     })
 
 def blog(request):
+    category_slug = request.GET.get('category')
+    query = request.GET.get('q')
+
     posts = BlogPost.objects.all().order_by('-created_at')
+
+    # Filter by category
+    if category_slug and category_slug != "all":
+        posts = posts.filter(category__slug=category_slug)
+
+    # Filter by search
+    if query:
+        posts = posts.filter(title__icontains=query)
+
     paginator = Paginator(posts, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'blog.html', {'blog_posts': page_obj})
+
+    categories = Category.objects.all()  # ✅ FIX: real category objects
+
+    return render(request, 'blog.html', {
+        'blog_posts': page_obj,
+        'categories': categories,
+        'selected_category': category_slug,
+        'query': query,
+    })
 
 def blog_detail(request, slug):
     blog = get_object_or_404(BlogPost, slug=slug)
@@ -61,11 +85,35 @@ def blog_detail(request, slug):
     })
 
 def projects(request):
+    category_slug = request.GET.get('category')
+    query = request.GET.get('q')
+
     projects = Project.objects.all().order_by('-created_at')
-    paginator = Paginator(projects, 6)
+
+    # 📂 Filter by category
+    if category_slug and category_slug != "all":
+        projects = projects.filter(category__slug=category_slug)
+
+    # 🔎 Filter by search
+    if query:
+        projects = projects.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
+        )
+
+    # 🔢 Pagination
+    paginator = Paginator(projects, 6)  # 6 projects per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'projects.html', {'projects': page_obj})
+
+    categories = Category.objects.all()
+
+    return render(request, 'projects.html', {
+        'projects': page_obj,
+        'categories': categories,
+        'selected_category': category_slug,
+        'query': query,
+    })
+
 
 def project_detail(request, slug):
     project = get_object_or_404(Project, slug=slug)
